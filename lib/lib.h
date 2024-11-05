@@ -15,17 +15,19 @@ struct Equipo
     int diferenciaGoles;
 };
 
-void textoParpadeante();
+void texto();
 void inicio();
-void menuPrincipal();
+int obtenerOpc(std::string);
+int menuPrincipal();
 
-void menuCompeticion();
+int menuCompeticion();
+std::string elegirCompeticion(int);
 
 void menuLiga();
 void menuEquiposLiga();
 
-void mostrarPaises(const std::vector<std::string>&);
-void menuPaises(int);
+int mostrarPaises(const std::vector<std::string> &);
+std::string menuPaises(int);
 
 void calcularProbabilidades(Equipo e1, Equipo e2);
 void mostrarTabla(Equipo e1, Equipo e2);

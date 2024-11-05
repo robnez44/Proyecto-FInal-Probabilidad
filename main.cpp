@@ -2,13 +2,22 @@
 #include "lib/lib.h"
 using namespace std;
 
-int main(){
-
+int main()
+{
     inicio();
-    menuPrincipal();
+    while (true)
+    {
+        int opc = menuPrincipal();
+        if (opc == 0)
+            break;
 
-    Equipo equipo1, equipo2;
+        while (true)
+        {
+            string nombre = elegirCompeticion(opc);
+            if (nombre.empty())
+                break;
+        }
+    }
 
-    
     return 0;
 }
