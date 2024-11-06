@@ -4,9 +4,9 @@ using namespace std;
 typedef vector<string> vs;
 
 #ifdef _WIN32
-#define CLEAR_CMD "cls"
+const string CLEAR_CMD = "cls";
 #else
-#define CLEAR_CMD "clear"
+const string CLEAR_CMD = "clear";
 #endif
 
 bool flag = true;
@@ -17,6 +17,12 @@ vs cAmerica = {"Argentina", "Mexico", "Ecuador", "Brasil", "Colombia", "Costa Ri
 
 vs eurocopa = {"Alemania", "Espana", "Italia", "Francia", "Paises Bajos", "Portugal", "Inglaterra", "Republica Checa"};
 
+vs laLiga = {"Real Madrid", "Barcelona", "Atl Madrid", "Sevilla"};
+
+vs bundesliga = {"Bayern de Munich", "Eintracht Frankfurt", "Borussia Dortmund", "Bayer Leverkusen"};
+
+vs serieA = {"Juventus", "Napoli", "AC Milan", "Fiorentina"};
+
 void texto()
 {
     string texto = "\nBienvenido a Fifa 25\n\n\n\nPresiona Enter para continuar...";
@@ -25,12 +31,12 @@ void texto()
     while (flag)
     {
         // Limpia la pantalla
-        system(CLEAR_CMD);
+        system(CLEAR_CMD.c_str());
         // Muestra el texto
         cout << texto << std::endl;
         // Espera un intervalo
         this_thread::sleep_for(chrono::milliseconds(intervalo));
-        system(CLEAR_CMD);
+        system(CLEAR_CMD.c_str());
         // Espera el mismo intervalo antes de mostrar el texto de nuevo
         this_thread::sleep_for(chrono::milliseconds(intervalo));
     }
@@ -38,7 +44,7 @@ void texto()
 
 void inicio()
 {
-    system(CLEAR_CMD);
+    system(CLEAR_CMD.c_str());
     // Iniciar el parpadeo en un hilo separado
     thread parpadeoThread(texto);
     // Espera que el usuario presione una tecla
@@ -51,31 +57,23 @@ void inicio()
 
 int obtenerOpc(string s)
 {
-    system(CLEAR_CMD);
+    system(CLEAR_CMD.c_str());
     cout << s;
     int opc;
     cin >> opc;
     return opc;
 }
 
-/*
-void menuLiga(){
-    system(CLEAR_CMD);
-    cout << "Selecciona la liga del Equipo 1\n\n1. LaLiga\n2. Bundesliga\n3. Premier League\n4. Serie A\n5. Ligue 1\n";
-
-    int opcion;
-    cin >> opcion;
-}
-*/
-
-int mostrarPaises(const vs &paises)
+int mostrarEquipos(const vs &equipos)
 {
-    for (int i = 0; i < paises.size(); i += 2)
+
+    cout << "\n";
+    for (int i = 0; i < equipos.size(); i += 2)
     {
-        cout << i + 1 << ". " << paises[i];
-        if (i + 1 < paises.size())
+        cout << i + 1 << ". " << equipos[i];
+        if (i + 1 < equipos.size())
         {
-            cout << "\t\t\t" << i + 2 << ". " << paises[i + 1] << "\n";
+            cout << "\t\t\t" << i + 2 << ". " << equipos[i + 1] << "\n";
         }
     }
     cout << "\n0. Volver\n";
@@ -89,56 +87,79 @@ int mostrarPaises(const vs &paises)
     return opcion;
 }
 
-string menuPaises(int opc)
+string menuLiga(string str)
 {
-    int numPais;
-    while (true)
+    string s = str + "Selecciona la liga del Equipo\n\n1. LaLiga\n2. Bundesliga\n3. Serie A\n0. Volver\n";
+    int numLiga, opcion = obtenerOpc(s);
+    system(CLEAR_CMD.c_str());
+    switch (opcion)
     {
-        system(CLEAR_CMD);
-        switch (opc)
-        {
-        case 2:
-            cout << "Equipos de la Copa América\n";
-            numPais = mostrarPaises(cAmerica);
-            if (numPais == 0)
-                return "";
-            return cAmerica[numPais - 1];
-            break;
-        case 3:
-            cout << "Equipos de la Copa Mundial\n";
-            numPais = mostrarPaises(mundial);
-            if (numPais == 0)
-                return "";
-            return mundial[numPais - 1];
-            break;
-        case 4:
-            cout << "Equipos de la Eurocopa\n";
-            numPais = mostrarPaises(eurocopa);
-            if (numPais == 0)
-                return "";
-            return eurocopa[numPais - 1];
-            break;
-        }
+    case 1:
+        cout << "Equipos de LaLiga\n";
+        numLiga = mostrarEquipos(laLiga);
+        if (numLiga == 0)
+            return "";
+        return laLiga[numLiga - 1];
+    case 2:
+        cout << "Equipos de la Bundesliga\n";
+        numLiga = mostrarEquipos(bundesliga);
+        if (numLiga == 0)
+            return "";
+        return bundesliga[numLiga - 1];
+    case 3:
+        cout << "Equipos de la Serie A\n";
+        numLiga = mostrarEquipos(serieA);
+        if (numLiga == 0)
+            return "";
+        return serieA[numLiga - 1];
+    default:
+        return "Opcion no valida";
     }
 }
 
-string elegirCompeticion(int opc)
+string menuPaises(int opc, string str)
+{
+    int numPais;
+    // while (true)
+    //{
+    system(CLEAR_CMD.c_str());
+    switch (opc)
+    {
+    case 2:
+        cout << str << "Equipos de la Copa América\n";
+        numPais = mostrarEquipos(cAmerica);
+        if (numPais == 0)
+            return "";
+        return cAmerica[numPais - 1];
+    case 3:
+        cout << str << "Equipos de la Copa Mundial\n";
+        numPais = mostrarEquipos(mundial);
+        if (numPais == 0)
+            return "";
+        return mundial[numPais - 1];
+    case 4:
+        cout << str << "Equipos de la Eurocopa\n";
+        numPais = mostrarEquipos(eurocopa);
+        if (numPais == 0)
+            return "";
+        return eurocopa[numPais - 1];
+    default:
+        return "Opcion no valida";
+    }
+    //}
+}
+
+string elegirCompeticion(int opc, string s)
 {
     switch (opc)
     {
     case 1:
-        return "";
-        // menuLiga();
+        return menuLiga(s);
         break;
     case 2:
     case 3:
     case 4:
-        return menuPaises(opc);
-        break;
-    case 5:
-        return "";
-        // menuLiga();
-        break;
+        return menuPaises(opc, s);
     default:
         return "Opcion no valida";
     }
@@ -146,7 +167,7 @@ string elegirCompeticion(int opc)
 
 int menuCompeticion()
 {
-    string s = "\n1. UEFA Champions League\n2. Copa America\n3. Copa Mundial\n4. Eurocopa\n5. UEFA Super Copa\n0. Atras\n";
+    string s = "Elige una competicion\n\n1. UEFA Champions League\n2. Copa America\n3. Copa Mundial\n4. Eurocopa\n0. Atras\n";
     while (true)
     {
         int opcion = obtenerOpc(s);
@@ -175,7 +196,6 @@ int menuPrincipal()
                 continue;
 
             return competicion;
-            break;
         }
     }
 }

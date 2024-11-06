@@ -15,21 +15,20 @@ struct Equipo
     int diferenciaGoles;
 };
 
+extern const std::string CLEAR_CMD;
+
 void texto();
 void inicio();
 int obtenerOpc(std::string);
 int menuPrincipal();
-
 int menuCompeticion();
-std::string elegirCompeticion(int);
+std::string elegirCompeticion(int, std::string);
+std::string menuLiga(std::string);
+std::string menuPaises(int, std::string);
+int mostrarEquipos(const std::vector<std::string> &);
 
-void menuLiga();
-void menuEquiposLiga();
-
-int mostrarPaises(const std::vector<std::string> &);
-std::string menuPaises(int);
-
-void calcularProbabilidades(Equipo e1, Equipo e2);
-void mostrarTabla(Equipo e1, Equipo e2);
+void pedirDatos(Equipo &, Equipo &);
+void mostrarTabla(Equipo, Equipo);
+void calcularProbabilidades(Equipo, Equipo);
 
 #endif
