@@ -24,6 +24,11 @@ int main()
         equipo1.nombre = nombre1;
         equipo2.nombre = nombre2;
 
+        pedirDatosEquipo(equipo1);
+        pedirDatosEquipo(equipo2);
+
+        mostrarTabla(equipo1, equipo2);
+
         
 
         cin.ignore();

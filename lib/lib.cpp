@@ -199,3 +199,38 @@ int menuPrincipal()
         }
     }
 }
+
+void pedirDatosEquipo(Equipo &equipo) {
+    cout << "Introduce los datos para el equipo " << equipo.nombre << ":\n";
+    cout << "Partidos Jugados: ";
+    cin >> equipo.partidosJugados;
+    
+    cout << "Partidos Ganados: ";
+    cin >> equipo.ganados;
+    
+    cout << "Partidos Empatados: ";
+    cin >> equipo.empatados;
+    
+    cout << "Partidos Perdidos: ";
+    cin >> equipo.perdidos;
+    
+    cout << "Goles a Favor: ";
+    cin >> equipo.golesFavor;
+    
+    cout << "Goles en Contra: ";
+    cin >> equipo.golesContra;
+
+    equipo.diferenciaGoles = equipo.golesFavor - equipo.golesContra;
+}
+
+void mostrarTabla(Equipo &equipo1, Equipo &equipo2)
+{
+
+    cout << "Equipo\t\tPJ\tG\tE\tP\tGF\tGC\tDG\n";
+    cout << equipo1.nombre << "\t" << equipo1.partidosJugados << "\t" << equipo1.ganados << "\t"
+        << equipo1.empatados << "\t" << equipo1.perdidos << "\t" << equipo1.golesFavor << "\t"
+        << equipo1.golesContra << "\t" << equipo1.diferenciaGoles << "\n";
+    cout << equipo2.nombre << "\t" << equipo2.partidosJugados << "\t" << equipo2.ganados << "\t"
+        << equipo2.empatados << "\t" << equipo2.perdidos << "\t" << equipo2.golesFavor << "\t"
+        << equipo2.golesContra << "\t" << equipo2.diferenciaGoles << "\n";
+}
