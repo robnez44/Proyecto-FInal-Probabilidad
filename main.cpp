@@ -29,7 +29,7 @@ int main()
 
         mostrarTabla(equipo1, equipo2);
 
-        
+        calcularProbabilidades(equipo1, equipo2);
 
         cin.ignore();
         cin.get();

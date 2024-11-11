@@ -200,23 +200,25 @@ int menuPrincipal()
     }
 }
 
-void pedirDatosEquipo(Equipo &equipo) {
+void pedirDatosEquipo(Equipo &equipo)
+{
+    system(CLEAR_CMD.c_str());
     cout << "Introduce los datos para el equipo " << equipo.nombre << ":\n";
     cout << "Partidos Jugados: ";
     cin >> equipo.partidosJugados;
-    
+
     cout << "Partidos Ganados: ";
     cin >> equipo.ganados;
-    
+
     cout << "Partidos Empatados: ";
     cin >> equipo.empatados;
-    
+
     cout << "Partidos Perdidos: ";
     cin >> equipo.perdidos;
-    
+
     cout << "Goles a Favor: ";
     cin >> equipo.golesFavor;
-    
+
     cout << "Goles en Contra: ";
     cin >> equipo.golesContra;
 
@@ -225,7 +227,7 @@ void pedirDatosEquipo(Equipo &equipo) {
 
 void mostrarTabla(Equipo &equipo1, Equipo &equipo2)
 {
-
+    system(CLEAR_CMD.c_str());
     cout << "Equipo\t\tPJ\tG\tE\tP\tGF\tGC\tDG\n";
     cout << equipo1.nombre << "\t" << equipo1.partidosJugados << "\t" << equipo1.ganados << "\t"
         << equipo1.empatados << "\t" << equipo1.perdidos << "\t" << equipo1.golesFavor << "\t"
@@ -233,4 +235,31 @@ void mostrarTabla(Equipo &equipo1, Equipo &equipo2)
     cout << equipo2.nombre << "\t" << equipo2.partidosJugados << "\t" << equipo2.ganados << "\t"
         << equipo2.empatados << "\t" << equipo2.perdidos << "\t" << equipo2.golesFavor << "\t"
         << equipo2.golesContra << "\t" << equipo2.diferenciaGoles << "\n";
+}
+
+void calcularProbabilidades(Equipo &equipo1, Equipo &equipo2)
+{
+    system(CLEAR_CMD.c_str());
+    double probGanarEq1 = (double)(equipo1.ganados) / equipo1.partidosJugados;
+    double probGanarEq2 = (double)(equipo2.ganados) / equipo2.partidosJugados;
+
+    double probEmpate = ((double)(equipo1.empatados) / equipo1.partidosJugados) +
+                        ((double)(equipo2.empatados) / equipo2.partidosJugados) /
+                        2;
+
+    double ajusteGolesFavorEq1 = (double)(equipo1.golesFavor) / (equipo1.golesFavor + equipo2.golesContra);
+    double ajusteGolesFavorEq2 = (double)(equipo2.golesFavor) / (equipo2.golesFavor + equipo1.golesContra);
+
+    double probFinalEq1 = probGanarEq1 * ajusteGolesFavorEq1;
+    double probFinalEq2 = probGanarEq2 * ajusteGolesFavorEq2;
+
+    double totalProb = probFinalEq1 + probFinalEq2 + probEmpate;
+    probFinalEq1 /= totalProb;
+    probFinalEq2 /= totalProb;
+    probEmpate /= totalProb;
+
+    cout << "Probabilidades para el partido entre " << equipo1.nombre << " y " << equipo2.nombre << ":\n";
+    cout << equipo1.nombre << " gana: " << probFinalEq1 * 100 << "%\n";
+    cout << "Empate: " << probEmpate * 100 << "%\n";
+    cout << equipo2.nombre << " gana: " << probFinalEq2 * 100 << "%\n";
 }

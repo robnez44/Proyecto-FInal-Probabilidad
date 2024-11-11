@@ -27,7 +27,7 @@ std::string menuLiga(std::string);
 std::string menuPaises(int, std::string);
 int mostrarEquipos(const std::vector<std::string> &);
 
-void pedirDatosEquipo(Equipo &equipo);
+void pedirDatosEquipo(Equipo &);
 void mostrarTabla(Equipo &, Equipo &);
 void calcularProbabilidades(Equipo &, Equipo &);
 
