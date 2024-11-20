@@ -15,11 +15,11 @@ vs mundial = {"Argentina", "Francia", "Croacia", "Marruecos", "Portugal", "Ingla
 
 vs cAmerica = {"Argentina", "Mexico", "Ecuador", "Brasil", "Colombia", "Costa Rica", "Chile", "Uruguay"};
 
-vs eurocopa = {"Alemania", "Espana", "Italia", "Francia", "Paises Bajos", "Portugal", "Inglaterra", "Republica Checa"};
+vs eurocopa = {"Alemania", "Espana", "Italia", "Francia", "Paises Bajos", "Portugal", "Inglaterra", "Checa"};
 
 vs laLiga = {"Real Madrid", "Barcelona", "Atl Madrid", "Sevilla"};
 
-vs bundesliga = {"Bayern de Munich", "Eintracht Frankfurt", "Borussia Dortmund", "Bayer Leverkusen"};
+vs bundesliga = {"Bayern de Munich", "Frankfurt", "Dortmund", "Leverkusen"};
 
 vs serieA = {"Juventus", "Napoli", "AC Milan", "Fiorentina"};
 
@@ -234,12 +234,11 @@ void mostrarTabla(Equipo &equipo1, Equipo &equipo2)
         << equipo1.golesContra << "\t" << equipo1.diferenciaGoles << "\n";
     cout << equipo2.nombre << "\t" << equipo2.partidosJugados << "\t" << equipo2.ganados << "\t"
         << equipo2.empatados << "\t" << equipo2.perdidos << "\t" << equipo2.golesFavor << "\t"
-        << equipo2.golesContra << "\t" << equipo2.diferenciaGoles << "\n";
+        << equipo2.golesContra << "\t" << equipo2.diferenciaGoles << "\n\n";
 }
 
 void calcularProbabilidades(Equipo &equipo1, Equipo &equipo2)
 {
-    system(CLEAR_CMD.c_str());
     double probGanarEq1 = (double)(equipo1.ganados) / equipo1.partidosJugados;
     double probGanarEq2 = (double)(equipo2.ganados) / equipo2.partidosJugados;
 
@@ -253,11 +252,9 @@ void calcularProbabilidades(Equipo &equipo1, Equipo &equipo2)
     double probFinalEq1 = probGanarEq1 * ajusteGolesFavorEq1;
     double probFinalEq2 = probGanarEq2 * ajusteGolesFavorEq2;
 
-    double totalProb = probFinalEq1 + probFinalEq2 + probEmpate;
-    probFinalEq1 /= totalProb;
-    probFinalEq2 /= totalProb;
-    probEmpate /= totalProb;
+    double totalProb = probFinalEq1 + probFinalEq2 + probEmpate; 
 
+    cout << fixed << setprecision(2);
     cout << "Probabilidades para el partido entre " << equipo1.nombre << " y " << equipo2.nombre << ":\n";
     cout << equipo1.nombre << " gana: " << probFinalEq1 * 100 << "%\n";
     cout << "Empate: " << probEmpate * 100 << "%\n";
