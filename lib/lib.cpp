@@ -216,10 +216,10 @@ void pedirDatosEquipo(Equipo &equipo)
     cout << "Partidos Perdidos: ";
     cin >> equipo.perdidos;
 
-    cout << "Goles a Favor: ";
+    cout << "Goles a Favor (>= " << equipo.ganados << "): ";
     cin >> equipo.golesFavor;
 
-    cout << "Goles en Contra: ";
+    cout << "Goles en Contra (>= " << equipo.perdidos << "): ";
     cin >> equipo.golesContra;
 
     equipo.diferenciaGoles = equipo.golesFavor - equipo.golesContra;
@@ -242,21 +242,31 @@ void calcularProbabilidades(Equipo &equipo1, Equipo &equipo2)
     double probGanarEq1 = (double)(equipo1.ganados) / equipo1.partidosJugados;
     double probGanarEq2 = (double)(equipo2.ganados) / equipo2.partidosJugados;
 
-    double probEmpate = ((double)(equipo1.empatados) / equipo1.partidosJugados) +
-                        ((double)(equipo2.empatados) / equipo2.partidosJugados) /
-                        2;
+    double probEmpateEq1 = (double)(equipo1.empatados) / equipo1.partidosJugados;
+    double probEmpateEq2 = (double)(equipo2.empatados) / equipo2.partidosJugados;
 
-    double ajusteGolesFavorEq1 = (double)(equipo1.golesFavor) / (equipo1.golesFavor + equipo2.golesContra);
-    double ajusteGolesFavorEq2 = (double)(equipo2.golesFavor) / (equipo2.golesFavor + equipo1.golesContra);
+    double probEmpate = (probEmpateEq1 + probEmpateEq2) / 2.0;
 
-    double probFinalEq1 = probGanarEq1 * ajusteGolesFavorEq1;
-    double probFinalEq2 = probGanarEq2 * ajusteGolesFavorEq2;
+    // Rendimiento ofensivo y defensivo
+    double ofensivoEq1 = (double)(equipo1.golesFavor) / equipo1.partidosJugados;
+    double defensivoEq2 = (double)(equipo2.golesContra) / equipo2.partidosJugados;
 
-    double totalProb = probFinalEq1 + probFinalEq2 + probEmpate; 
+    double ofensivoEq2 = (double)(equipo2.golesFavor) / equipo2.partidosJugados;
+    double defensivoEq1 = (double)(equipo1.golesContra) / equipo1.partidosJugados;
+
+    // Ajustar probabilidades por el rendimiento
+    probGanarEq1 *= ofensivoEq1 / defensivoEq2;
+    probGanarEq2 *= ofensivoEq2 / defensivoEq1;
+
+    // Normalizar las probabilidades
+    double totalProb = probGanarEq1 + probGanarEq2 + probEmpate;
+    probGanarEq1 /= totalProb;
+    probGanarEq2 /= totalProb;
+    probEmpate /= totalProb;
 
     cout << fixed << setprecision(2);
     cout << "Probabilidades para el partido entre " << equipo1.nombre << " y " << equipo2.nombre << ":\n";
-    cout << equipo1.nombre << " gana: " << probFinalEq1 * 100 << "%\n";
+    cout << equipo1.nombre << " gana: " << probGanarEq1 * 100 << "%\n";
     cout << "Empate: " << probEmpate * 100 << "%\n";
-    cout << equipo2.nombre << " gana: " << probFinalEq2 * 100 << "%\n";
+    cout << equipo2.nombre << " gana: " << probGanarEq2 * 100 << "%\n";
 }
